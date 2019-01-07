@@ -101,7 +101,19 @@ suite('Functional Tests', function() {
       test('Test GET /api/books/[id] with valid id in db',  function(done){
         chai.request(server)
           .get('/api/books')
-        //done();
+          .end((err,res)=>{
+            var validId = res.body[0]._id;
+            chai.request(server)
+              .get('/api/books')
+              .send({id: validId})
+              .end((err,res)=>{
+                assert.equal(res.status, 200);
+                assert.equal(res.body._id, validId);
+                assert.isString(res.body.title);
+                assert.isArray(res.body.comments);
+                done();
+              })
+          })
       });
       
     });
