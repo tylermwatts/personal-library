@@ -89,11 +89,12 @@ suite('Functional Tests', function() {
       
       test('Test GET /api/books/[id] with id not in db',  function(done){
         chai.request(server)
-          .get('/api/books')
-          .query()
+          .get('/api/books/:id')
+          .send({id: '1'})
           .end((err,res)=>{
-            
-            //done();
+            assert.equal(res.status, 200);
+            assert.equal(res.body.error, 'No book with the given _id exists.');
+            done();
           })
       });
       

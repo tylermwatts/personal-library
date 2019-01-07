@@ -55,6 +55,11 @@ module.exports = function (app) {
   app.route('/api/books/:id')
     .get(function (req, res){
       var bookid = req.params.id;
+      Book.findById(bookid, (err,book)=>{
+        if (err) return res.json(err)
+        if (!book) return res.json({error: 'No book with the given _id exists.'})
+        res.json({_id: bookid, title: book.title, comments: book.comments})
+      })
       //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
     })
     
