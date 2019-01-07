@@ -89,9 +89,8 @@ suite('Functional Tests', function() {
       
       test('Test GET /api/books/[id] with id not in db',  function(done){
         chai.request(server)
-          .get('/api/books/12345')
-          
-          .end((err,res)=>{
+          .get('/api/books/5c337666af70453081656cd3') //this _id follows valid id structure but does not exist in the DB
+          .end(function(err,res){
             assert.equal(res.status, 200);
             assert.equal(res.body.error, 'No book with the given _id exists.');
             done();
@@ -100,12 +99,11 @@ suite('Functional Tests', function() {
       
       test('Test GET /api/books/[id] with valid id in db',  function(done){
         chai.request(server)
-          .get('/api/books')
+          .get('/api/books/')
           .end((err,res)=>{
             var validId = res.body[0]._id;
             chai.request(server)
-              .get('/api/books')
-              .send({id: validId})
+              .get('/api/books/' + validId)
               .end((err,res)=>{
                 assert.equal(res.status, 200);
                 assert.equal(res.body._id, validId);
