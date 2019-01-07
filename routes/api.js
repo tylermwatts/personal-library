@@ -30,24 +30,20 @@ module.exports = function (app) {
       var query = req.body._id || {};
       Book.find(query,(err,books)=>{
         if (err) return res.json(err);
-        console.log(books)
         res.json(books);
       })
     })
     
     .post(function (req, res){
+      if (!req.body.title) return res.json({error: 'No title provided!'})
       var title = req.body.title;
-      Book.findOne({title: title}, (err,book)=>{
+      var newBook = new Book({title: title, comments: [], commentcount: 0},(err,data)=>{
         if (err) return res.json(err)
-        if (book) return res.json({error: "This title already exists!"})
       })
-        var newBook = new Book({title: title, comments: [], commentcount: 0},(err,data)=>{
-          if (err) return res.json(err)
-          newBook.save((err,data)=>{
-          if (err) return res.json(err)
-            res.json({title: data.title, _id: data._id});
-          })
-        })
+      newBook.save((err,data)=>{
+        if (err) return res.json(err)
+        return res.json(data);
+      })
     })
     
     .delete(function(req, res){
