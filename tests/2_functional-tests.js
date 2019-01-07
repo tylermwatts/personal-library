@@ -99,6 +99,8 @@ suite('Functional Tests', function() {
       });
       
       test('Test GET /api/books/[id] with valid id in db',  function(done){
+        chai.request(server)
+          .get('/api/books')
         //done();
       });
       
