@@ -120,8 +120,22 @@ suite('Functional Tests', function() {
     suite('POST /api/books/[id] => add comment/expect book object with id', function(){
       
       test('Test POST /api/books/[id] with comment', function(done){
-        chai.request(server).get('/api/books/').end((err,res)=>{})
-        //done();
+        chai.request(server)
+          .get('/api/books/')
+          .end((err,res)=>{   
+            var idForComment = res.body[0]._id;
+            chai.request(server)
+              .post('/api/books/' + idForComment)
+              .send({comment: "test comment"})
+              .end((err,res)=>{
+                assert.equal(res.status, 200);
+                assert.isString(res.body.title)
+                assert.isArray(res.body.comments);
+                assert.isNumber(res.body.commentcount);
+                assert.equal(res.body.comments[res.body.comments.length - 1], "test comment");
+                done();
+              })
+          })
       });
       
     });

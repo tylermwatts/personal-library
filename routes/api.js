@@ -66,6 +66,9 @@ module.exports = function (app) {
     .post(function(req, res){
       var bookid = req.params.id;
       var comment = req.body.comment;
+      Book.findById(bookid, function(err,book){
+        
+      })
       //json res format same as .get
     })
     
