@@ -67,9 +67,12 @@ module.exports = function (app) {
       var bookid = req.params.id;
       var comment = req.body.comment;
       Book.findById(bookid, function(err,book){
-        
+        if (err) return res.json(err);
+        if (!book) return res.json({error: "No book with the given _id exists."});
+        book.comments.push(comment);
+        book.commentcount++;
+        res.json({_id: book._id, title: book.title, commentcount: book.commentcount});
       })
-      //json res format same as .get
     })
     
     .delete(function(req, res){

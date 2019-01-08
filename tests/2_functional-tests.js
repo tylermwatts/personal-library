@@ -122,12 +122,12 @@ suite('Functional Tests', function() {
       test('Test POST /api/books/[id] with comment', function(done){
         chai.request(server)
           .get('/api/books/')
-          .end((err,res)=>{   
+          .end(function(err,res){  
             var idForComment = res.body[0]._id;
             chai.request(server)
               .post('/api/books/' + idForComment)
               .send({comment: "test comment"})
-              .end((err,res)=>{
+              .end(function(err,res){
                 assert.equal(res.status, 200);
                 assert.isString(res.body.title)
                 assert.isArray(res.body.comments);
