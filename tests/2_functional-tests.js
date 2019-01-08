@@ -166,6 +166,18 @@ suite('Functional Tests', function() {
           })
       })
     });
+    
+    suite('DELETE entire collection', function(){
+      test('Test DELETE to delete entire book collection', function(done){
+        chai.request(server)
+          .delete('/api/books')
+          .end(function(err,res){
+            assert.equal(res.status, 200);
+            assert.equal(res.body.success, 'complete delete successful');
+            done();
+          })
+      })
+    })
 
   });
 

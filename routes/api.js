@@ -47,6 +47,8 @@ module.exports = function (app) {
     })
     
     .delete(function(req, res){
+      Book.collection.drop()
+      res.json({success: "complete delete successful"});
       //if successful response will be 'complete delete successful'
     });
 
