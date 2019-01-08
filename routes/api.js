@@ -71,7 +71,8 @@ module.exports = function (app) {
         if (!book) return res.json({error: "No book with the given _id exists."});
         book.comments.push(comment);
         book.commentcount++;
-        res.json({_id: book._id, title: book.title, commentcount: book.commentcount});
+        book.save(()=>{})
+        res.json({_id: book._id, title: book.title, comments: book.comments, commentcount: book.commentcount});
       })
     })
     

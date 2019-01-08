@@ -130,8 +130,9 @@ suite('Functional Tests', function() {
               .end(function(err,res){
                 assert.equal(res.status, 200);
                 assert.isString(res.body.title)
+                assert.equal(res.body._id, idForComment);
                 assert.isArray(res.body.comments);
-                assert.isNumber(res.body.commentcount);
+                assert.equal(res.body.commentcount, res.body.comments.length);
                 assert.equal(res.body.comments[res.body.comments.length - 1], "test comment");
                 done();
               })
@@ -139,6 +140,8 @@ suite('Functional Tests', function() {
       });
       
     });
+    
+    suite('DELETE
 
   });
 
