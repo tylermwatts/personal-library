@@ -89,7 +89,7 @@ suite('Functional Tests', function() {
       
       test('Test GET /api/books/[id] with id not in db',  function(done){
         chai.request(server)
-          .get('/api/books/5c337666af70453081656cd3') //this _id follows valid id structure but does not exist in the DB
+          .get('/api/books/5c337666af70453081656cd3') //this _id follows valid id format but does not exist in the DB
           .end(function(err,res){
             assert.equal(res.status, 200);
             assert.equal(res.body.error, 'No book with the given _id exists.');
@@ -141,7 +141,31 @@ suite('Functional Tests', function() {
       
     });
     
-    suite('DELETE
+    suite('DELETE book from collection by _id', function(){
+      test('Test DELETE book with INVALID _id', function(done){
+        chai.request(server)
+          .delete('/api/books/5c337666af70453081656cd3') //this _id follows valid id format but does not exist in the DB
+          .end(function(err,res){
+            assert.equal(res.status, 200);
+            assert.equal(res.body.error, "No book with the given _id exists.")
+            done();
+          })
+      })
+      test('Test DELETE book with VALID _id', function(done){
+        chai.request(server)
+          .get('/api/books')
+          .end(function(err,res){
+            var idToDelete = res.body[0]._id;
+            chai.request(server)
+              .delete('/api/books/' + idToDelete)
+              .end(function(err,res){
+                assert.equal(res.status, 200);
+                assert.equal(res.body.success, "delete successful");
+                done();
+              })
+          })
+      })
+    });
 
   });
 
