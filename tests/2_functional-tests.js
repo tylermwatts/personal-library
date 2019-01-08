@@ -120,6 +120,7 @@ suite('Functional Tests', function() {
     suite('POST /api/books/[id] => add comment/expect book object with id', function(){
       
       test('Test POST /api/books/[id] with comment', function(done){
+        chai.request(server).get('/api/books/').end((err,res)=>{})
         //done();
       });
       
